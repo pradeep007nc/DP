@@ -1,82 +1,68 @@
 package backtracking;
 
+import java.util.ArrayList;
+import java.util.List;
+
 //space n2 and time n!
 public class NQueens {
-    int[][] board;
-    int N;
-    public NQueens(int size){
-        this.N = size;
-        board = new int[size][size];
+
+    public static void main(String[] args){
+        NQueens queens = new NQueens();
+        System.out.println(queens.solveNQueens(4));
     }
 
-    public boolean isSafe(int row, int col){
-        int i, j;
+    public List<List<String>> solveNQueens(int n) {
+        List<List<String>> ans = new ArrayList<List<String>>();
+        boolean[][] board = new boolean[n][n];
+        queens(board, 0, ans);
+        return ans;
+    }
 
-        //check the left row of the board
-        for(i=0;i<col;i++){
-            if(board[row][i] == 1)
-                return false;
+    public void queens(boolean[][] board, int row, List<List<String>> ans2) {
+        //base case
+        if (row == board.length) {
+            ArrayList<String> ans = new ArrayList<String>();
+            createAnswer(board, ans);
+            ans2.add(ans);
+            return;
         }
-
-        //check upper diagonal of the board
-        for (i=row,j=col; i>=0&&j>=0; i--,j--){
-            if (board[i][j] == 1)
-                return false;
+        for (int col = 0; col < board.length; col++) {
+            if (isSafe(board, row, col)) {
+                board[row][col] = true;
+                queens(board, row + 1, ans2);
+                board[row][col] = false;
+            }
         }
+    }
 
-        //check lower diagonal of the board
-        for (i=row,j=col; j>=0 && i<N;i++,j--){
-            if (board[i][j] == 1)
-                return false;
+    public void createAnswer(boolean[][] board, ArrayList<String> ans) {
+        for (int i = 0; i < board.length; i++) {
+            StringBuilder str = new StringBuilder();
+            for (int j = 0; j < board[0].length; j++) {
+                if (board[i][j]) {
+                    str.append("Q");
+                } else str.append(".");
+            }
+            ans.add(str.toString());
         }
+    }
 
-        //if none of them is false then it is safe
+    public boolean isSafe(boolean[][] board, int row, int col) {
+        for (int i = 0; i < row; i++) {
+            if (board[i][col]) {
+                return false;
+            }
+        }
+        int maxLeft = Math.min(row, col);
+        for (int i = 1; i <= maxLeft; i++) {
+            if (board[row - i][col - i]) {
+                return false;
+            }
+        }
+        int maxRight = Math.min(row, board.length - 1 - col);
+        for (int i = 1; i <= maxRight; i++) {
+            if (board[row - i][col + i]) return false;
+        }
         return true;
-    }
-
-    //recursively solve for n queens on the board
-    public boolean solveNQueens(int col){
-
-        //base case if all queens are placed
-        if(col >= N)
-            return true;
-
-        //try placing queen in board one by one
-        for (int i=0;i<N;i++){
-            if (isSafe(i, col)){
-                //place the queen
-                board[i][col] = 1;
-
-                if (solveNQueens(col+1))
-                    return true;
-
-                //if placing doesn't lead to solution
-                //remove queen and backtrack
-                board[i][col] = 0;
-            }
-        }
-
-        //if cannot be placed
-        return false;
-    }
-
-    public void printBoard(){
-        for (int i=0;i<board.length;i++){
-            for (int j=0;j<board.length;j++){
-                if (board[i][j] == 0)
-                    System.out.print(". ");
-                else
-                    System.out.print("Q ");
-            }
-            System.out.println();
-        }
-    }
-
-    public static void main(String[] args) {
-        NQueens queens = new NQueens(10);
-        if (!queens.solveNQueens(0))
-            System.out.println("solution is not possible");
-        else
-            queens.printBoard();
     }
 }
