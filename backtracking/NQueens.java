@@ -1,13 +1,16 @@
 package backtracking;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 //space n2 and time n!
 public class NQueens {
 
     public static void main(String[] args){
         NQueens queens = new NQueens();
+
         System.out.println(queens.solveNQueens(4));
     }
 
@@ -61,7 +64,8 @@ public class NQueens {
         }
         int maxRight = Math.min(row, board.length - 1 - col);
         for (int i = 1; i <= maxRight; i++) {
-            if (board[row - i][col + i]) return false;
+            if (board[row - i][col + i])
+                return false;
         }
         return true;
     }
