@@ -1,6 +1,7 @@
 package backtracking;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class NQueensOptimised {
@@ -49,9 +50,8 @@ public class NQueensOptimised {
     public List<List<String>> solveNQueens(int n) {
         List<List<String>> ans=new ArrayList<>();
         char[][] board=new char[n][n];
-        for(int i=0;i<n;i++)
-            for(int j=0;j<n;j++)
-                board[i][j]='.';
+        for (char[] ch: board)
+            Arrays.fill(ch, '.');
 
         int[] upperDiag = new int[2*n-1];
         int[] lowerDiag = new int[2*n-1];
