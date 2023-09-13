@@ -1,6 +1,7 @@
 package prac;
 
 import java.util.*;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class Ranking {
@@ -8,15 +9,9 @@ public class Ranking {
         int[] arr1 = {100, 100, 50, 40, 40, 20, 10};
         int[] arr2 = {5, 25, 50, 120};
 
-        List<Integer> ranked = new ArrayList<>();
-        for (int value : arr1) {
-            ranked.add(value);
-        }
+        List<Integer> ranked = Arrays.stream(arr1).boxed().collect(Collectors.toList());
 
-        List<Integer> player = new ArrayList<>();
-        for (int value : arr2) {
-            player.add(value);
-        }
+        List<Integer> player = Arrays.stream(arr2).boxed().collect(Collectors.toList());
 
         System.out.println(climbingLeaderboard(ranked, player));
     }
@@ -34,7 +29,7 @@ public class Ranking {
         int index = ranked.size()-1;
         for(int i: player){
 
-            currentScore += i;
+            currentScore = i;
 
             while(!map.isEmpty() && currentScore >= ranked.get(index)){
                 int val = ranked.get(index);

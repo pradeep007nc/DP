@@ -3,6 +3,7 @@ package backtracking;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.Future;
 
 public class NQueensOptimised {
 
@@ -63,6 +64,24 @@ public class NQueensOptimised {
 
     public static void main(String[] args) {
         NQueensOptimised queens = new NQueensOptimised();
-        System.out.println(queens.solveNQueens(4));
+        System.out.println(queens.solveNQueens(7));
+        new Thread(new demo()).start();
+        new Thread(new demo2()).start();
+    }
+}
+
+class demo implements Runnable{
+
+    @Override
+    public void run() {
+        for (int i=0;i<20;i++)
+            System.out.println("mama mia" +i);
+    }
+}
+
+class demo2 implements Runnable{
+    public void run(){
+        for (int i=0;i<20;i++)
+            System.out.println("mi amor"+i);
     }
 }
