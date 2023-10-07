@@ -5,29 +5,31 @@ import java.util.List;
 
 public class Subsets {
 
+    public static void main(String[] args) {
+        System.out.println(new Subsets().sub(new int[]{1,2,3}));
+    }
+
     public List<List<Integer>> sub(int[] nums) {
         List<List<Integer>> ans = new ArrayList<>();
         List<Integer> subset = new ArrayList<>();
-        backTrack(nums, 0, ans, subset);
+        backtrack(ans, subset, nums, 0);
         return ans;
     }
 
-    public void backTrack(int[] nums,
-                          int start,
-                          List<List<Integer>> ans,
-                          List<Integer> subset
-    ){
-
-        if(start >= nums.length){
-            ans.add(new ArrayList<>(subset));
-        }else{
-            subset.add(nums[start]);
-            backTrack(nums, start+1, ans, subset);
-            subset.remove(subset.size()-1);
-            backTrack(nums, start+1, ans, subset);
+    public void backtrack(List<List<Integer>> ans
+            , List<Integer> currList
+            , int[] nums
+            , int index)
+    {
+        ans.add(new ArrayList<>(currList));
+        for(int i=index;i<nums.length;i++){
+            currList.add(nums[i]);
+            backtrack(ans, currList, nums, i+1);
+            currList.remove(currList.size()-1);
         }
-
     }
+
+
 
 //    1
 //    232
